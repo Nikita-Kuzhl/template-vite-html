@@ -1,4 +1,6 @@
-<html>
-<head></head>
-<body>asd</body>
-</html>
+<extends src="layouts/default.html" locals='{"title": "Title"}'>
+  <block name="body">
+    <h1>Body</h1>
+    <include src="components/common/svg.html" locals='{ "name" : "user" }'></include>
+  </block>
+</extends>

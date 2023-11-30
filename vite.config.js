@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite';
 
+import posthtml from '@vituum/vite-plugin-posthtml';
 import { join, resolve } from 'path';
-import pages, { getRollupInput } from 'vite-mpa';
 import svg from 'vite-sprite-svg';
+import vituum from 'vituum';
 
 const rootDir = resolve(__dirname, 'src');
-const pagesDir = resolve(rootDir, 'pages');
 const publicDir = resolve(__dirname, 'public');
 const root = './src';
 const port = 3000;
@@ -14,25 +14,23 @@ export default defineConfig(({ command }) => {
   const isDev = command !== 'build';
   return {
     plugins: [
+      vituum(),
+      posthtml({
+        root: root,
+      }),
       svg({
         baseDir: rootDir,
         publicDir,
         isDev: isDev,
       }),
-      pages(isDev),
     ],
     publicDir: publicDir,
-    root: root,
     build: {
       outDir: resolve(__dirname, 'dist'),
-      rollupOptions: {
-        input: getRollupInput({ root, rootDir, port, pagesDir }, isDev),
-      },
       emptyOutDir: true,
     },
     server: {
       port: port,
-      open: '/pages/',
     },
     resolve: {
       alias: {
